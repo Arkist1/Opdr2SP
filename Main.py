@@ -12,17 +12,12 @@ def connectpostgres(dbname):
     
     return conn
 
-
 def updatedata():
     postgres = psycopg2.connect("dbname=RecommendationEngine password=admin")
     client = MongoClient("localhost")
     db = client["test_database"]
     
-    productcol = db['product_data']
-    sessioncol = db['anonymous_sessions']
-    profilescol = db['anonymous_profiles']
-    
-    
+    productcol = db['product_data']    
 
 
 if __name__ == '__main__':
