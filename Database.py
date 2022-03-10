@@ -34,4 +34,4 @@ class Database:
         # return collection.find_one({"_id": "100241"})
 
     def insertData(): 
-        return
+        print("hoi")
