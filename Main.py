@@ -1,17 +1,22 @@
-from pymongo import MongoClient
-import psycopg2
+from Database import Database
 
+def updatedata(db):
 
-def updatedata():
-    client = MongoClient("localhost")
-    db = client["test_database"]
+    dbname = db.name
+    print ("Connected tot %s", dbname)
+    # db = client["test_database"]
     
-    productcol = db['product_data']
-    sessioncol = db['anonymous_sessions']
-    profilescol = db['anonymous_profiles']
+    products = db.get_collection('products')
+    for product in products:
+        print(product)
+    
+    # sessioncol = db['anonymous_sessions']
+    # profilescol = db['anonymous_profiles']
     
     
 
+database = Database()
+print(database.findMongoData(database.db.get_collection('products'), '_id', 'name'))
 
-if __name__ == '__main__':
-    updatedata()
+# if __name__ == '__main__':    
+    # updatedata(database.db)
