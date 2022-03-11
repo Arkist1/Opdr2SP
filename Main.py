@@ -17,7 +17,7 @@ def updatedata():
     client = MongoClient("localhost")
     db = client["test_database"]
     
-    productcol = db['product_data']    
+    productcol = db['product_data']
 
 
 if __name__ == '__main__':
