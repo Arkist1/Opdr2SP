@@ -15,7 +15,7 @@ def productneerzetten(id,naam,prijs,cat1,cat2,aanraadbaar,actief,inwinkel,inopsl
     con.commit()
 
 #voorbeeld van wat er toegevoegd kan worden aan de database in postgres
-productneerzetten('12456','scheetkussen','3.90','speelgoed','kinderen',True,True,True,True)
+productneerzetten('12677','auto','3.90','speelgoed','kinderen',True,True,True,True)
 
 
 
