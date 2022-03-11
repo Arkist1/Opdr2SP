@@ -14,7 +14,7 @@ class Database:
                 user="postgres",
                 password="admin"
             )
-    
+        
     #Getting data from a mongodb collection
     def findMongoData(self, collection: collection.Collection, *props):
         # id, name, price, cat1, cat2, recommendable, sm:active, properties:av_store, properties: av_warehouse
@@ -33,5 +33,5 @@ class Database:
         return collection
         # return collection.find_one({"_id": "100241"})
 
-    def insertData(): 
-        print("hoi")
+    def insertData(self): 
+        pass
