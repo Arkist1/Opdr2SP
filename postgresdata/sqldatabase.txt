@@ -1,10 +1,11 @@
 create table voorwerp (
-	idnummer varchar,
+	idnummer integer,
 	naam varchar,
 	prijs varchar,
 	cat1 varchar,
 	cat2 varchar,
 	aanraadbaar boolean,
+	actief boolean
 	inwinkel boolean,
 	inopslag boolean,
 	primary key (idnummer)

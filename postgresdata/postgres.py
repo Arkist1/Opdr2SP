@@ -5,34 +5,26 @@ con = psycopg2.connect(             #verbinding maken met de database
     database = 'huwebshop',         #pas eigen instellingen hier aan
     user = 'postgres',
     password= 'snellestijn')
-
 cur = con.cursor()
 
-def productpakken():
-    #code die een product returned op basis van de parameters waaraan die moet voldoen
-    
-    cur.execute("select * from voorwerp;")
-    alles = cur.fetchall()
-    print(alles)
-
-    pass
 
 
-def productneerzetten(id,naam):
-    #code die een bepaald product in de database zet
-    cur.execute("insert into voorwerp values (%s,%s);",(id,naam))
+#code die een bepaald product in de database zet
+def productneerzetten(id,naam,prijs,cat1,cat2,aanraadbaar,actief,inwinkel,inopslag):
+    cur.execute("insert into voorwerp values (%s,%s,%s,%s,%s,%s,%s,%s,%s);",(id,naam,prijs,cat1,cat2,aanraadbaar,actief,inwinkel,inopslag))
     con.commit()
-    pass
+
+#voorbeeld van wat er toegevoegd kan worden aan de database in postgres
+productneerzetten('12456','scheetkussen','3.90','speelgoed','kinderen',True,True,True,True)
 
 
 
-
-productpakken()
-productneerzetten('123','handschoen')
-
-
+#stukje om te table te weergeven in terminal
+cur.execute("select * from voorwerp;")
+print(cur.fetchall())
 
 
 
+#afsluiten van de verbinding, om fouten te verkomen
 cur.close()
 con.close()
