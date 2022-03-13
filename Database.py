@@ -1,6 +1,7 @@
 from msilib.schema import Error
 from pymongo import MongoClient, collection
 import psycopg2
+import time
 
 
 class Database:
@@ -86,6 +87,7 @@ class Database:
 
     def updatesessions(self):
         sessionscol = self.mongodb['anonymous_sessions']
+        buids = []
         
         for session in sessionscol.find():
             looked_at = []
@@ -102,19 +104,26 @@ class Database:
                     orders.append(product)
             
             cur = self.postgres.cursor()
-            if session["buid"][0] in self.connections.keys():
-                try:
-                    cur.execute(f"INSERT INTO session(id, profileid) VALUES('{session['buid'][0]}', '{self.connections[session['buid'][0]]}')")
-                except psycopg2.errors.UniqueViolation:
-                    # weet niet hoe ik dit zo snel op moet lossen
-                    continue
-            else:
-                try :
+            if session['buid'][0] not in buids:
+                
+                
+                if session['buid'][0] in self.connections.keys():
+                    cur.execute(
+                        f"INSERT INTO session(id, profileid) VALUES('{session['buid'][0]}', '{self.connections[session['buid'][0]]}')")
+                
+                else:
                     cur.execute(f"INSERT INTO session(id) VALUES('{session['buid'][0]}')")
-                except psycopg2.errors.UniqueViolation:
-                    continue
-            
-            self.postgres.commit()
+
+                buids.append(session['buid'][0])
+                
+                # NUTTELOOS WANT DATA IS NIET COMPLEET
+                # for product in orders:
+                #     print([product[0] for product in products], product['id'])
+                #     if product['id'] in [product[0] for product in products]:
+                #         cur.execute(f"""INSERT INTO "order"(sessionid, product_dataid) VALUES('{session['buid'][0]}', {product['id']})""")
+                
+
+        self.postgres.commit()
     
     def cleardb(self):
         cur = self.postgres.cursor()
