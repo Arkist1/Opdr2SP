@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS "session" CASCADE;
 DROP TABLE IF EXISTS profile CASCADE;
 DROP TABLE IF EXISTS "order" CASCADE;
 DROP TABLE IF EXISTS looked_at CASCADE;
-
 CREATE TABLE product_data (
   id                     BIGSERIAL NOT NULL,
   naam                   varchar(100),
@@ -11,24 +10,20 @@ CREATE TABLE product_data (
   brand                  varchar(100),
   category_1             varchar(255),
   category_2             varchar(255),
-  availabity_store       int4,
-  availibility_warehouse int4,
+  availability_store     int4,
+  availability_warehouse int4,
   recommendable          bool,
   active                 bool);
-
 CREATE TABLE "session" (
   id        varchar(255) NOT NULL,
-  profileid varchar(255) NOT NULL);
-
+  profileid varchar(255));
 CREATE TABLE profile (
   id         varchar(255) NOT NULL,
-  created_at varchar(255));
-
+  created_at int4 NOT NULL);
 CREATE TABLE "order" (
   id             int4 NOT NULL,
   sessionid      varchar(255) NOT NULL,
   product_dataid int8 NOT NULL);
-
 CREATE TABLE looked_at (
   id             int4 NOT NULL,
   product_dataid int8 NOT NULL,
