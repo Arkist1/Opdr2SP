@@ -7,7 +7,7 @@ class Database:
     def __init__(self, dbname):
         # self.mongoClient = MongoClient("mongodb+srv://daniloDbUser:Joeydanilo1%21@danilo.sxj7r.gcp.mongodb.net/aigp?authSource=admin&replicaSet=Danilo-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
         self.mongoClient = MongoClient("localhost")
-        self.mongodb = self.mongoClient.get_database(dbname)
+        self.mongodb = self.mongoClient["test_database"]
 
         self.postgres = psycopg2.connect(
                 host="localhost",
