@@ -1,1 +1,4 @@
 /.idea/
+/data_analyse/profile.py
+/data_analyse/product.py
+/data_analyse/session.py
