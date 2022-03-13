@@ -28,7 +28,8 @@ CREATE TABLE looked_at (
   product_dataid int8 NOT NULL,
   sessionid      varchar(255) NOT NULL);
 CREATE TABLE category (
-  id             int4,
+  id             SERIAL,
+  depth          int2,
   category       varchar(255),
   product_dataid int8 NOT NULL);
 

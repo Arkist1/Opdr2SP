@@ -55,8 +55,7 @@ class Database:
             data["naam"] = self.fix_string(product["name"])
             data["brand"] = self.fix_string(product["brand"])
             data["prijs"] = product["price"]["selling_price"]
-            data["category_1"] = self.fix_string(product["category"]["category_1"])
-            data["category_2"] = self.fix_string(product["category"]["category_2"])
+            categories = product['category']
             
             properties = product["properties"]
             data["ava_store"] = properties["availability_store"] if properties["availability_store"] != "" else 0
@@ -65,10 +64,14 @@ class Database:
             data["is_active"] = product["sm"]["is_active"]
             
             cur = self.postgres.cursor()
-            cur.execute(f"INSERT INTO product_data(id, naam, prijs, brand, category_1, category_2, "
+            cur.execute(f"INSERT INTO product_data(id, naam, prijs, brand,"
                                   f"availability_store, availability_warehouse, recommendable, active)"
-                                  f"VALUES({data['id']}, '{data['naam']}', {data['prijs']}, '{data['brand']}', '{data['category_1']}',"
-                                  f"'{data['category_2']}', {data['ava_store']}, {data['ava_warehouse']}, {data['recommendable']}, {data['is_active']})")
+                                  f"VALUES({data['id']}, '{data['naam']}', {data['prijs']}, '{data['brand']}'"
+                                  f", {data['ava_store']}, {data['ava_warehouse']}, {data['recommendable']}, {data['is_active']})")
+            
+            for category in categories.items():
+                print(category)
+                cur.execute(f"INSERT INTO category(depth, category, product_dataid) VALUES({category[0][-1]}, '{category[1]}', {data['id']})")
         
     def updateprofiles(self):
         profilescol = self.mongodb['anonymous_profiles']
