@@ -15,8 +15,8 @@ def updatedata(db):
     
     
 
-database = Database()
+database = Database("test_database")
 print(database.findMongoData(database.db.get_collection('products'), '_id', 'name'))
 
-# if __name__ == '__main__':    
-    # updatedata(database.db)
+if __name__ == '__main__':
+    updatedata(database.db)

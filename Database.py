@@ -5,8 +5,9 @@ import psycopg2
 
 class Database:
     def __init__(self, dbname):
-        self.mongoClient = MongoClient("mongodb+srv://daniloDbUser:Joeydanilo1%21@danilo.sxj7r.gcp.mongodb.net/aigp?authSource=admin&replicaSet=Danilo-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
-        self.mongodb = self.client.get_database()
+        # self.mongoClient = MongoClient("mongodb+srv://daniloDbUser:Joeydanilo1%21@danilo.sxj7r.gcp.mongodb.net/aigp?authSource=admin&replicaSet=Danilo-shard-0&readPreference=primary&appname=MongoDB%20Compass&ssl=true")
+        self.mongoClient = MongoClient("localhost")
+        self.mongodb = self.mongoClient.get_database(dbname)
 
         self.postgres = psycopg2.connect(
                 host="localhost",
@@ -33,5 +34,5 @@ class Database:
         return collection
         # return collection.find_one({"_id": "100241"})
 
-    def insertData(): 
+    def insertData(self):
         return
