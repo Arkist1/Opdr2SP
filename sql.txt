@@ -21,11 +21,11 @@ CREATE TABLE profile (
   id         varchar(255) NOT NULL,
   created_at varchar(255) NOT NULL);
 CREATE TABLE "order" (
-  id             int4 NOT NULL,
+  id             SERIAL NOT NULL,
   sessionid      varchar(255) NOT NULL,
   product_dataid int8 NOT NULL);
 CREATE TABLE looked_at (
-  id             int4 NOT NULL,
+  id             SERIAL NOT NULL,
   product_dataid int8 NOT NULL,
   sessionid      varchar(255) NOT NULL);
 
