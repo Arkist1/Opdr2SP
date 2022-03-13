@@ -19,7 +19,7 @@ CREATE TABLE "session" (
   profileid varchar(255));
 CREATE TABLE profile (
   id         varchar(255) NOT NULL,
-  created_at int4 NOT NULL);
+  created_at varchar(255) NOT NULL);
 CREATE TABLE "order" (
   id             int4 NOT NULL,
   sessionid      varchar(255) NOT NULL,

@@ -44,7 +44,6 @@ class Database:
         self.updateproducts()
         self.updateprofiles()
         self.updatesessions()
-        self.updateconnections()
         
     def updateproducts(self):
         products = self.mongodb['product_data']
@@ -66,34 +65,56 @@ class Database:
             
             cur = self.postgres.cursor()
             cur.execute(f"INSERT INTO product_data(id, naam, prijs, brand, category_1, category_2, "
-                                  f"availabity_store, availibility_warehouse, recommendable, active)"
+                                  f"availability_store, availability_warehouse, recommendable, active)"
                                   f"VALUES({data['id']}, '{data['naam']}', {data['prijs']}, '{data['brand']}', '{data['category_1']}',"
                                   f"'{data['category_2']}', {data['ava_store']}, {data['ava_warehouse']}, {data['recommendable']}, {data['is_active']})")
         
     def updateprofiles(self):
-        profilescol = self.mongodb['profiles']
+        profilescol = self.mongodb['anonymous_profiles']
         
         for profile in profilescol.find():
-            data = {"created_at": profile["sm"]["created"]["$date"],
+            data = {"created_at": profile["sm"]["created"].isoformat(),
                     "id": profile["_id"]}
-            
+                    
             for x in profile["buids"]:
-                self.connections["x"] = data[id]
+                self.connections[x] = data['id']
                 
             cur = self.postgres.cursor()
-            cur.execute(f"INSER INTO profile (id, created_at) VALUES({data['id']}, '{data['created_at']}')")
-        
+            cur.execute(f"INSERT INTO profile(id, created_at) VALUES('{data['id']}', '{data['created_at']}')")
         
         self.postgres.commit()
 
     def updatesessions(self):
-        sessionscol = self.mongodb['sessions']
+        sessionscol = self.mongodb['anonymous_sessions']
         
-    def updateconnections(self):
-        return
-    
-    def insertData(self):
-        return
+        for session in sessionscol.find():
+            looked_at = []
+            orders = []
+            for x in session["events"]:
+                product = x["product"]
+                if product == True:
+                    if product not in looked_at:
+                        looked_at.append(product)
+            
+            order = session["order"]
+            if order["total"] is not None:
+                for product in order["products"]:
+                    orders.append(product)
+            
+            cur = self.postgres.cursor()
+            if session["buid"][0] in self.connections.keys():
+                try:
+                    cur.execute(f"INSERT INTO session(id, profileid) VALUES('{session['buid'][0]}', '{self.connections[session['buid'][0]]}')")
+                except psycopg2.errors.UniqueViolation:
+                    # weet niet hoe ik dit zo snel op moet lossen
+                    continue
+            else:
+                try :
+                    cur.execute(f"INSERT INTO session(id) VALUES('{session['buid'][0]}')")
+                except psycopg2.errors.UniqueViolation:
+                    continue
+            
+            self.postgres.commit()
     
     def cleardb(self):
         cur = self.postgres.cursor()
